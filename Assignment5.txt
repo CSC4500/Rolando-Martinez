@@ -1,0 +1,270 @@
+
+DROP DATABASE IF EXISTS Spotify;
+CREATE DATABASE Spotify;
+
+-- select the database
+USE Spotify;
+
+CREATE TABLE USERS
+(
+FName		VARCHAR(50)  NOT NULL,
+LName		VARCHAR(50)  NOT NULL,
+U_Email		VARCHAR(50)  NOT NULL,
+U_Password	VARCHAR(50)  NOT NULL,
+U_Gender	VARCHAR(20)  NOT NULL,
+DOB			DATE	NOT NULL,
+Playlist_Id	INT		NOT NULL,
+Username	VARCHAR(50)  NOT NULL,
+constraint 	USERNAME_PK  PRIMARY KEY(Username)
+);
+CREATE TABLE MUSIC_TRACK
+(
+Track		INT NOT NULL,
+Track_Id	INT NOT NULL,
+TrackDescr	VARCHAR(100)		NOT NULL,
+constraint	TRACK_PK	PRIMARY KEY(Track_Id)
+);
+CREATE TABLE ALBULM
+(
+Albulm_Id	INT		NOT NULL,
+AlbulmName	VARCHAR(50)		NOT NULL,
+Year		INT		NOT NULL,
+Songs_Id	 	INT		NOT NULL,
+Artist_Id	INT		NOT NULL,
+constraint  ALBULM_PK PRIMARY KEY(Albulm_Id)
+);
+CREATE TABLE ARTISTS
+(
+Artist_Id INT		NOT NULL,
+FName	  VARCHAR(50)  NOT NULL,
+LName 	  VARCHAR(50)  NOT NULL,
+Songs_Id	  INT		NOT NULL,
+Albulm_Id INT		NOT NULL,
+constraint	ARTIST_PK PRIMARY KEY(Artist_Id),
+constraint  ALBULM_FK FOREIGN KEY(Albulm_Id)
+						REFERENCES ALBULM(Albulm_Id)
+);
+CREATE TABLE GENRE
+(
+Genre_Id	INT		NOT NULL,
+GenreName	VARCHAR(50)  NOT NULL,
+Songs_Id		INT		NOT NULL,
+Artist_Id	INT		NOT NULL,
+Albulm_Id	INT		NOT NULL,
+constraint	GENRE_PK PRIMARY KEY(Genre_Id),
+constraint  ARTIST_FK FOREIGN KEY(Artist_Id)
+									REFERENCES ARTISTS(Artist_Id),
+constraint  ALBULM_FK2 FOREIGN KEY(Albulm_Id)
+						REFERENCES ALBULM(Albulm_Id)
+);
+
+CREATE TABLE SONGS
+(
+Songs_Id 	INT		NOT NULL,
+Song_Name	VARCHAR(50)		NOT NULL,
+Duration_Time TIME	NOT NULL,
+Artist_Id	INT		NOT NULL,
+Playlist_Id INT		NOT NULL,
+Track 		INT NOT NULL,
+Genre_Id	INT		NOT NULL,
+Albulm_Id	INT		NOT NULL,
+constraint	SONGS_PK PRIMARY KEY(Songs_Id),
+constraint  ARTIST_FK2 FOREIGN KEY(Artist_Id)
+									REFERENCES ARTISTS(Artist_Id),
+constraint	GENRE_FK  FOREIGN KEY(Genre_Id)
+								REFERENCES GENRE(Genre_Id),
+constraint  ALBULM_FK3 FOREIGN KEY(Albulm_Id)
+									REFERENCES ALBULM(Albulm_Id)
+);
+CREATE TABLE PLAYLIST
+(
+Playlist_Id 		INT		NOT NULL,
+PlaylistName 	VARCHAR(50)		NOT NULL,
+Songs_Id			INT		NOT NULL,
+CreatedDate		DATE	NOT NULL,
+Artist_Id		INT		NOT NULL,
+Track_Id		INT 	NOT NULL,
+constraint		PLAYLIST_PK 	PRIMARY KEY(Playlist_Id),
+constraint 		SONGS_FK			FOREIGN KEY(Songs_Id)
+									REFERENCES SONGS(Songs_Id),
+constraint		ARTIST_FK3		FOREIGN KEY(Artist_Id)
+									REFERENCES ARTISTS(Artist_Id),
+constraint		Track_FK		FOREIGN KEY(Track_Id)
+									REFERENCES MUSIC_TRACK(Track_Id)
+);
+CREATE TABLE SONGS_FROM_PLAYLIST
+(
+Songs_Id			INT		NOT NULL,
+PlaylistName	VARCHAR(50)  NOT NULL,
+Playlist_Id		INT		NOT NULL,
+constraint		PLAYLIST_FK  FOREIGN KEY(Playlist_Id)
+								REFERENCES PLAYLIST(Playlist_Id)
+);
+
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Daniel', 'Lofthouse', 'dlofthouse0@ft.com', 'wOyS7q9P', 'Male', '2010-12-26', 1, 'dlofthouse0');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Daile', 'Brickdale', 'dbrickdale1@jiathis.com', 'q6PUzD', 'Genderfluid', '2020-12-8', 2, 'dbrickdale1');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Gaby', 'Jedraszek', 'gjedraszek2@forbes.com', 'fSJork', 'Non-binary', '2019-8-8', 3, 'gjedraszek2');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Rozanna', 'Hamerton', 'rhamerton3@constantcontact.com', 'DesrBokbTgo', 'Bigender', '2021-8-21', 4, 'rhamerton3');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Calla', 'Smuth', 'csmuth4@cam.ac.uk', '5f33QIKVlxth', 'Genderqueer', '2019-1-18', 5, 'csmuth4');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Brander', 'Sellars', 'bsellars5@mashable.com', 'nVB6cQFP', 'Agender', '2005-8-7', 6, 'bsellars5');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Jocelyn', 'Deeprose', 'jdeeprose6@walmart.com', 'iag3zan52j', 'Male', '2009-9-2', 7, 'jdeeprose6');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Dallon', 'Oswick', 'doswick7@go.com', 'yoSfZ35XbY8v', 'Bigender', '2015-12-4', 8, 'doswick7');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Ariadne', 'Noddings', 'anoddings8@e-recht24.de', '5YKmAn', 'Agender', '2018-3-5', 9, 'anoddings8');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Garrick', 'Marciek', 'gmarciek9@angelfire.com', 'DL3vXVgj', 'Genderqueer', '2009-9-9', 10, 'gmarciek9');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Almeta', 'Studd', 'astudda@i2i.jp', '0Vxax70P', 'Agender', '2021-5-9', 11, 'astudda');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Kettie', 'Pisco', 'kpiscob@goo.gl', '6Q9DOJDHr2t', 'Female', '2020-1-8', 12, 'kpiscob');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Norbie', 'Mechic', 'nmechicc@cnn.com', 'P0PzDY2', 'Polygender', '2001-4-29', 13, 'nmechicc');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Sheeree', 'Bengal', 'sbengald@jugem.jp', 'JCF2brv', 'Male', '2010-7-20', 14, 'sbengald');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Archibald', 'Corteney', 'acorteneye@spiegel.de', 'ueekxX', 'Male', '2020-10-10', 15, 'acorteneye');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Allyn', 'Doornbos', 'adoornbosf@issuu.com', 'rLhohzYAxk', 'Bigender', '2021-11-11', 16, 'adoornbosf');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Thorsten', 'Langdridge', 'tlangdridgeg@soundcloud.com', 'X7Ze30Azy2Za', 'Polygender', '2011-6-26', 17, 'tlangdridgeg');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Jaime', 'Fronek', 'jfronekh@so-net.ne.jp', 'ndzvNB', 'Bigender', '2011-3-3', 18, 'jfronekh');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Zacharia', 'Lemmertz', 'zlemmertzi@youtu.be', 'pyRqdV4z', 'Male', '2011-3-27', 19, 'zlemmertzi');
+insert into USERS (FName, LName, U_Email, U_Password, U_Gender, DOB, Playlist_Id, Username) values ('Adena', 'McMichan', 'amcmichanj@xing.com', '0Du357', 'Genderfluid', '2012-3-30', 20, 'amcmichanj');
+
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('1', 1, 'Postdysenteric arthropathy, left hand');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('2', 2, 'Nondisp bicondylar fx unsp tibia, 7thK');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('3', 3, 'Nondisp fx of right radial styloid process, init for clos fx');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('4', 4, 'Matern care for viable fetus in abd preg, third tri, fetus 5');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('5', 5, 'Monteggia''s fracture of unspecified ulna');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('6', 6, 'Open bite of left upper arm');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('7', 7, 'Oth fracture of sacrum, subs for fx w delay heal');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('8', 8, 'Oth fx upr & low end l fibula, subs for clos fx w routn heal');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('9', 9, 'Nondisp fx of fourth metatarsal bone, unsp foot, init');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('10', 10, 'Acute gastric ulcer without hemorrhage or perforation');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('11', 11, 'Diffuse large B-cell lymphoma, intra-abdominal lymph nodes');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('12', 12, 'Minor laceration of celiac artery, sequela');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('13', 13, 'Nondisp transverse fx shaft of unsp tibia, 7thC');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('14', 14, 'Diabetes due to underlying condition w unsp diabetic rtnop');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('15', 15, 'Abnormal findings in specimens from resp org/thrx');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('16', 16, 'Laceration with foreign body, unspecified thigh, sequela');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('17', 17, 'Unsp inj unsp blood vess at shldr/up arm, unsp arm, subs');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('18', 18, 'Displ oblique fx shaft of unsp tibia, 7thB');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('19', 19, 'Open bite of thyroid gland, subsequent encounter');
+insert into MUSIC_TRACK (Track, Track_Id, TrackDescr) values ('20', 20, 'Other chronic hematogenous osteomyelitis, femur');
+
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (1, 'Viva', '2011', 1, 1);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (2, 'Tin', '2020', 2, 2);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (3, 'Vagram', '2021', 3, 3);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (4, 'Stronghold', '2022', 4, 4);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (5, 'Sonair', '2009', 5, 5);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (6, 'Fix San', '2010', 6, 6);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (7, 'Namfix', '2018', 7, 7);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (8, 'Daltfresh', '2016', 8, 8);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (9, 'Namfix', '2015', 9, 9);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (10, 'Daltfresh', '2014', 10, 10);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (11, 'Fintone', '2013', 11, 11);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (12, 'Konklab', '12012', 12, 12);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (13, 'Ronstring', '2008', 13, 13);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (14, 'Holdlamis', '2007', 14, 14);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (15, 'Solarbreeze', '2019', 15, 15);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (16, 'Overhold', '2004', 16, 16);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (17, 'Tampflex', '2013', 17, 17);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (18, 'Daltfresh', '2005', 18, 18);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (19, 'Kanlam', '2002', 19, 19);
+insert into ALBULM (Albulm_Id, AlbulmName, Year, Songs_Id, Artist_Id) values (20, 'Solarbreeze', '2001', 20, 20);
+
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (1, 'Esther', 'Jost', 1, 1);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (2, 'Pepillo', 'Witchell', 2, 1);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (3, 'Kennie', 'Leroy', 3, 1);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (4, 'Marisa', 'Janney', 4, 1);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (5, 'Claudine', 'Mainston', 5, 1);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (6, 'Lisha', 'Titt', 6, 6);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (7, 'Marje', 'Pevreal', 7, 7);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (8, 'Susi', 'Playfair', 8, 8);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (9, 'Floyd', 'Laxson', 9, 9);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (10, 'Lanna', 'Episcopi', 10, 10);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (11, 'Kessiah', 'Napolitano', 11, 11);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (12, 'Mallissa', 'Fritzer', 12, 12);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (13, 'Sim', 'Grassi', 13, 13);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (14, 'Elihu', 'Karolowski', 14, 14);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (15, 'Annabell', 'Le Ball', 15, 15);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (16, 'Arlyn', 'Fakeley', 16, 16);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (17, 'Fernandina', 'Perch', 17, 17);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (18, 'Iseabal', 'Newis', 18, 18);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (19, 'Wilmette', 'Rudsdale', 19, 19);
+insert into ARTISTS (Artist_Id, FName, LName, Songs_Id, Albulm_Id) values (20, 'Gilburt', 'Matzkaitis', 20, 20);
+
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (1, 'Rock', 1, 1, 1);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (2, 'Pop Music', 2, 2, 2);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (3, 'Jazz', 3, 3, 3);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (4, 'Musical theatre', 4, 4, 4);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (5, 'Folk', 5, 5, 5);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (6, 'Country', 6, 6, 6);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (7, 'Heavy metal', 7, 7, 7);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (8, 'Blues', 8, 8, 8);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (9, 'Classical', 9, 9, 9);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (10, 'Electronic', 10, 10, 10);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (11, 'Funk', 11, 11, 11);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (12, 'Reggae', 12, 12, 12);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (13, 'Instrumental', 13, 13, 13);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (14, 'Dubstep', 14, 14, 14);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (15, 'Pop rock', 15, 15, 15);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (16, 'Techno', 16, 16, 16);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (17, 'Latino pop', 17, 17, 17);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (18, 'Regional Mexican', 18, 18, 18);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (19, 'Classical', 19, 19, 19);
+insert into GENRE (Genre_Id, GenreName, Songs_Id, Artist_Id, Albulm_Id) values (20, 'Soul', 20, 20, 20);
+
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (1, 'Marinna', '7:35 ', 1,1, 1,1, 1);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (2, 'Shurwood', '2:59 ', 2,2, 2,2, 2);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (3, 'Annaliese', '5:22 ', 3,3, 3,3, 3);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (4, 'Florella', '7:41 ', 4,4, 4,4, 4);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (5, 'Meyer', '11:31 ', 5, 5,5,5, 5);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (6, 'Cathy', '8:32 ', 6, 6,6,6, 6);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (7, 'Anatollo', '4:07 ', 7, 7,7,7,7);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (8, 'Gusty', '9:08 ', 8, 8,8,8, 8);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (9, 'Fairfax', '6:23 ', 9, 9,9,9, 9);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (10, 'Eada', '10:43 ', 10, 10,10,10, 10);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (11, 'Malvina', '1:08 ', 11, 11,11,11, 11);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (12, 'Osgood', '9:40 ', 12, 12,12,12, 12);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (13, 'Joyous', '10:59 ', 13, 13,13,13, 13);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (14, 'Mayne', '2:40 ', 14, 14,14,14, 14);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (15, 'Anthe', '1:23 ', 15, 15,15,15, 15);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (16, 'Ransell', '11:49 ', 16, 16,16,16, 16);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (17, 'Agathe', '7:38 ', 17, 17,17,17, 17);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (18, 'Hercules', '8:40', 18, 18,18,18, 18);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (19, 'Ami', '9:15 ', 19, 19,19,19, 19);
+insert into SONGS (Songs_Id, Song_name, Duration_Time, Artist_Id,Playlist_Id,Track, Genre_Id, Albulm_Id) values (20, 'Roberta', '1:18 ', 20, 20,20,20, 20);
+
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (1, 'Keylex', 1, '2019-12-30', 1, 1);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (2, 'Lotstring', 2, '2021-06-07', 2, 2);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (3, 'Zathin', 3, '2021-04-05', 3, 3);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (4, 'Treeflex', 4, '2020-08-23', 4, 4);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (5, 'Bitwolf', 5, '2021-07-16', 5, 5);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (6, 'Gembucket', 6, '2020-09-28', 6, 6);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (7, 'Hatity', 7, '2019-12-02', 7, 7);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (8, 'Otcom', 8, '2020-01-05', 8, 8);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (9, 'Solarbreeze', 9, '2020-08-23', 9, 9);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (10, 'Home Ing', 10, '2020-03-21', 10, 10);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (11, 'Voyatouch', 11, '2021-02-05', 11, 11);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (12, 'Rank', 12, '2020-08-05', 12, 12);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (13, 'Aerified', 13, '2020-02-24', 13, 13);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (14, 'Keylex', 14, '2021-10-02', 14, 14);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (15, 'Bamity', 15, '2021-04-04', 15, 15);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (16, 'Bigtax', 16, '2021-05-24', 16, 16);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (17, 'Bigtax', 17, '2020-01-22', 17, 17);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (18, 'Tampflex', 18, '2020-07-21', 18, 18);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (19, 'Subin', 19, '2021-03-04', 19, 19);
+insert into PLAYLIST (Playlist_Id, PlaylistName, Songs_Id, CreatedDate, Artist_Id, Track_Id) values (20, 'Flowdesk', 20, '2021-01-27', 20, 20);
+
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (1, 'Lotstring', 1);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (2, 'Duobam', 2);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (3, 'Toughjoyfax', 3);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (4, 'Quo Lux', 4);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (5, 'Bamity', 5);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (6, 'Fixflex', 6);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (7, 'Solarbreeze', 7);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (8, 'Bytecard', 8);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (9, 'Zamit', 9);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (10, 'Alphazap', 10);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (11, 'Duobam', 11);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (12, 'Bigtax', 12);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (13, 'Solarbreeze', 13);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (14, 'Quo Lux', 14);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (15, 'Konklux', 15);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (16, 'Fix San', 16);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (17, 'Voyatouch', 17);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (18, 'Span', 18);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (19, 'Cardguard', 19);
+insert into SONGS_FROM_PLAYLIST (Songs_Id, PlaylistName, Playlist_Id) values (20, 'Voyatouch', 20);
